@@ -20,13 +20,13 @@ const pageCache = new CacheFirst({
 });
 
 warmStrategyCache({
-  urls: ['/manifest.json', '/index.html', '/'],
+  urls: ['/index.html', '/'],
   strategy: pageCache,
 });
 
 registerRoute(({ request }) => request.mode === 'navigate', pageCache);
 
-registerRoute(({ request }) => {return (request.destination === 'image' || request.destination === 'style' || request.destination === 'script')}, 
+registerRoute(({ request }) => {return (request.destination === 'image' || request.destination === 'style' || request.destination === 'script' || request.destination === 'manifest')}, 
   new CacheFirst({
     cacheName: 'asset-cache',
     plugins: [
@@ -39,8 +39,4 @@ registerRoute(({ request }) => {return (request.destination === 'image' || reque
       }),
     ]
   })
-);
-
-self.addEventListener('fetch', (e) =>
-  e.respondWith(caches.match(e.request).then((res) => res || fetch(e.request)))
 );
