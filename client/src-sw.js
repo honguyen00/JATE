@@ -26,7 +26,7 @@ warmStrategyCache({
 
 registerRoute(({ request }) => request.mode === 'navigate', pageCache);
 
-registerRoute(({ request }) => {return (request.destination === 'image' || request.destination === 'style' || request.destination === 'script' || request.destination === 'manifest' || request.destination === 'worker')}, 
+registerRoute(({ request }) => ['image', 'style', 'script', 'manifest', 'worker'].includes(request.destination), 
   new StaleWhileRevalidate({
     cacheName: 'asset-cache',
     plugins: [
